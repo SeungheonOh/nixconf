@@ -26,7 +26,7 @@
         # nvim-nightly
         (import (builtins.fetchTarball {
           url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
-          sha256 = "1cy8z8hmd6gsq7x47xzxk6bgi2qxizikhk0b9j5382pp02hz0wg3";
+          sha256 = "003zarigbrwznfrj9byzmnclbpq8bcqiqf8ym7pw1ffdxrjsszyh";
         }))
       ];
     };
@@ -43,7 +43,14 @@
           ./modules
           ./linux/modules
           ./linux
-          ./linux/cL7AySgCX3.nix 
+          ./linux/hardware/cL7AySgCX3.nix 
+          home-manager.darwinModules.home-manager
+          # From malob/nixpkgs 
+          ( { config, lib, ... }: let inherit (config.users) primaryUser; in {
+            nixpkgs = nixpkgsConfig;
+            home-manager.useGlobalPkgs = true;
+            home-manager.users.${primaryUser} = import ./home;
+          })
           {
             users.primaryUser = "seungheonoh";
             networking.hostName = "cL7AySgCX3";
@@ -51,6 +58,13 @@
               enp4s0.useDHCP = true;
             };
             time.timeZone = "America/Chicago";
+            
+            users.users.seungheonoh = {
+              name = "seungheonoh";
+              isNormalUser = true;
+              home = "/home/seungheonoh";
+              extraGroups = [ "wheel" "audio" "networkmanager" "video" "dialout" "tty" "influxdb" "libvirtd" "docker"];
+            };
           }
         ];
       };

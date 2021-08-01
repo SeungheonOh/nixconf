@@ -23,6 +23,7 @@
         ( final: prev: {
           comma = import inputs.comma { inherit (prev) pkgs; };
         })
+        # nvim-nightly
         (import (builtins.fetchTarball {
           url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
           sha256 = "1cy8z8hmd6gsq7x47xzxk6bgi2qxizikhk0b9j5382pp02hz0wg3";
@@ -30,11 +31,36 @@
       ];
     };
   in {
+    # NixOS Systems
+    nixosConfigurations = {
+      bootstrap = nixpkgs.lib.nixosSystem {
+        modules = [ ./linux/bootstrap.nix { nixpkgs = nixpkgsConfig; } ];
+      };
+
+      cL7AySgCX3 = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./modules
+          ./linux/modules
+          ./linux
+          {
+            users.primaryUser = "seungheonoh";
+            networking.hostName = "cL7AySgCX3";
+            networking.interfaces = {
+              enp4s0.useDHCP = true;
+            };
+            time.timeZone = "America/Chicago";
+          }
+        ];
+      };
+    };
+
+    # Darwin Systems
     darwinConfigurations = {
       bootstrap = darwin.lib.darwinSystem {
         modules = [ ./darwin/bootstrap.nix { nixpkgs = nixpkgsConfig; } ];
       };
-
+      
       SeungheonOhsAir = darwin.lib.darwinSystem {
         modules = [ 
           ./modules

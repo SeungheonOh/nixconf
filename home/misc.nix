@@ -24,6 +24,7 @@
     unrar
     curl
     comma
+    pot
 
     haskell-language-server
     haskellPackages.cabal-install

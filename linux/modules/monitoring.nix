@@ -3,10 +3,10 @@
 with lib;
 
 let
-  cfg = config.services.monitoring;
+  cfg = config.features.monitoring;
 in
 {
-  options.services.monitoring = {
+  options.features.monitoring = {
     enable = mkEnableOption "monitoring";
     port = mkOption {
       description = "Port for Grafana";

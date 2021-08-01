@@ -3,7 +3,7 @@
 {
   imports = [
     ./monitoring.nix
-    ./vm.nix
+    #./vm.nix
     ./v4l2loopback.nix
   ];
 }

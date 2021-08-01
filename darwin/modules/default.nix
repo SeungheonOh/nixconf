@@ -1,0 +1,7 @@
+{...}:
+
+{
+  imports = [
+    ./security/pam.nix
+  ];
+}

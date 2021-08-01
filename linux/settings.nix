@@ -27,13 +27,24 @@
     };
   };
   
+  environment.systemPackages = with pkgs; [
+    corectrl
+    pulseeffects-pw
+    file
+    unzip
+    whois
+    killall
+    wget
+    tmux
+    ag
+    jq
+    gnome3.gnome-tweaks
+  ];
+  
   networking = {
     networkmanager.enable = true;
-    nameservers = [ "1.1.1.1" "1.0.0.1" "8.8.8.8" ];
-    firewall = {
-      enable = true;
-      allowedTCPPorts = [ 8080 ];
-    };
+    nameservers = [ "1.1.1.1" "8.8.8.8" ];
+    firewall.enable = true;
   };
   
   fonts = {
@@ -80,61 +91,12 @@
       alsa.support32Bit = true;
       jack.enable = true;
     };
-    grafana = {
-      enable = false;
-      port = 3000;
-      domain = "localhost";
-      protocol = "http";
-      dataDir = "/var/lib/grafana";
-    };
-    influxdb = {
-      enable = false;
-      dataDir = "/var/db/influxdb";
-    };
-    telegraf = {
-      enable = false;
-      extraConfig = {
-        inputs = {
-          net = { interfaces = [ "wlo1" ]; };
-          netstat = {};
-          cpu = { totalcpu = true; };
-          sensors = {};
-          kernel = {};
-          mem = {};
-          swap = {};
-          processes = {};
-          system = {};
-          disk = {};
-          diskio = {};
-        };
-        outputs = {
-          influxdb = {
-            database = "system_log";
-            urls = [ "http://localhost:8086" ];
-          };
-        };
-      };
-    };
     printing = {
       enable = true;
       drivers = [ pkgs.hplip ];
     };
-    mpd = {
-      enable = false;
-      extraConfig = ''
-      audio_output {
-        type "pulse"
-        name "pulseaudio"
-        server "127.0.0.1"
-      }'';
-    };
   };
-  systemd.services.telegraf.path = [ pkgs.lm_sensors ];
 
-  virtualisation = {
-    libvirtd.enable = false;
-    docker.enable = false;
-  };
   programs.dconf.enable = true;
 
   nix.gc = {

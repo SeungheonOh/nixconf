@@ -21,13 +21,23 @@
   
   home.packages = with pkgs; [
     wget
-    unrar
     curl
+    unzip
+    unrar
     comma
+    ag
+    jq
+    ffmpeg
     pot
 
     haskell-language-server
     haskellPackages.cabal-install
     hlint
+  ] ++ lib.optionals (!stdenv.isDarwin) [
+    google-chrome
+    zoom-us
+    discord
+    feh
+    wine
   ];
 }

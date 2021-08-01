@@ -1,15 +1,19 @@
 {config, pkgs, lib, ...}:
+
+with lib;
+
 let
   cfg = config.services.monitoring;
+in
 {
   options.services.monitoring = {
-    enable = lib.mkEnableOption "monitoring";
-    port = lib.mkOption {
+    enable = mkEnableOption "monitoring";
+    port = mkOption {
       description = "Port for Grafana";
       default = 3000;
       type = types.port;
     };
-    netInterface = lib.mkOption {
+    netInterface = mkOption {
       description = "Network interface to monitor";
       default = [ "enp4s0" ];
       type = types.listOf types.str;
@@ -55,5 +59,9 @@ let
       };
     };
     systemd.services.telegraf.path = [ pkgs.lm_sensors ];
+    environment.systemPackages = with pkgs; [
+      influxdb
+      telegraf
+    ];
   };
 }

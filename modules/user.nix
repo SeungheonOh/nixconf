@@ -10,5 +10,9 @@ in
       type = with types; nullOr string;
       default = null;
     };
+    users.primaryUserHome = mkOption {
+      type = with types; nullOr string;
+      default = null;
+    };
   };
 }

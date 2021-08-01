@@ -25,10 +25,6 @@ in
           nix-shell
         fi
       }
-      function sysrebuild() {
-        cdns $NIXCONFPATH
-        sudo make
-      }
       # Prompt
       restore_prompt_after_nix_shell() {
         if [ "$PS1" != "$PROMPT" ]; then

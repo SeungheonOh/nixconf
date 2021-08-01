@@ -43,6 +43,7 @@
           ./modules
           ./linux/modules
           ./linux
+          ./linux/cL7AySgCX3.nix 
           {
             users.primaryUser = "seungheonoh";
             networking.hostName = "cL7AySgCX3";

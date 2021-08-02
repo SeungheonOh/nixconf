@@ -104,6 +104,9 @@
             users.primaryUser = "seungheonoh";
             users.primaryUserHome = "/Users/seungheonoh";
             networking.hostName = "SeungheonOhsAir";
+            services.nix-daemon.enable = false;
+            
+            nix.extraOptions = "extra-platforms = x86_64-darwin aarch64-darwin";
           }
         ];
       };

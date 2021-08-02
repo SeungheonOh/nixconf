@@ -2,7 +2,7 @@
 let
   shellAlias = {
     v = "nvim";
-    c = "cdns";
+    c = "cd";
     ns = "nix-shell";
     nsp = "nix-shell -p";
   };
@@ -19,22 +19,8 @@ in
       in ''
       source ${pkgs.complete-alias}/bin/complete_alias
       ${alias_completion}
-      function cdns() {
-        cd $1
-        if [ -f ./shell.nix ]; then
-          nix-shell
-        fi
-      }
-      # Prompt
-      restore_prompt_after_nix_shell() {
-        if [ "$PS1" != "$PROMPT" ]; then
-          PS1="*$PROMPT"
-          PROMPT_COMMAND=""
-        fi
-      }
-      PROMPT_COMMAND=restore_prompt_after_nix_shell
-      PROMPT='[ \W ]$ '
-      export PS1=$PROMPT
+
+      export PS1='[ \W ]$ '
       bind 'TAB:menu-complete'
       bind 'set show-all-if-ambiguous on'
     '';

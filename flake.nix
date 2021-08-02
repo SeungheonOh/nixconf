@@ -28,7 +28,7 @@
         # nvim-nightly
         (import (builtins.fetchTarball {
           url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
-          sha256 = "1cy8z8hmd6gsq7x47xzxk6bgi2qxizikhk0b9j5382pp02hz0wg3";
+          sha256 = "003zarigbrwznfrj9byzmnclbpq8bcqiqf8ym7pw1ffdxrjsszyh";
         }))
       ];
     };
@@ -60,7 +60,7 @@
           ./linux
           ./linux/hardware/cL7AySgCX3.nix 
           
-          home-manager.darwinModules.home-manager
+          home-manager.nixosModules.home-manager
           homeManagerConfigurations
 
           {

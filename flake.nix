@@ -28,7 +28,7 @@
         # nvim-nightly
         (import (builtins.fetchTarball {
           url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
-          sha256 = "003zarigbrwznfrj9byzmnclbpq8bcqiqf8ym7pw1ffdxrjsszyh";
+          sha256 = "1cy8z8hmd6gsq7x47xzxk6bgi2qxizikhk0b9j5382pp02hz0wg3";
         }))
       ];
     };
@@ -39,15 +39,13 @@
         nixpkgs = nixpkgsConfig;
       }
     ];
-    # Common Moudles for setting Home Manager.
-    homeManagerModules = [
-      home-manager.nixosModules.home-manager
+    # Common configurations for Home Manager.
+    homeManagerConfigurations =
       ({config, lib, ...}: {
         users.users.${config.users.primaryUser}.home = config.users.primaryUserHome;
         home-manager.useGlobalPkgs = true;
         home-manager.users.${config.users.primaryUser} = import ./home;
-      })
-    ];
+      });
   in {
     # NixOS Systems
     nixosConfigurations = {
@@ -57,10 +55,13 @@
 
       cL7AySgCX3 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        modules = commonModules ++ homeManagerModules ++ [
+        modules = commonModules ++ [
           ./linux/modules 
           ./linux
           ./linux/hardware/cL7AySgCX3.nix 
+          
+          home-manager.darwinModules.home-manager
+          homeManagerConfigurations
 
           {
             users.primaryUser = "seungheonoh";
@@ -92,9 +93,12 @@
       };
       
       SeungheonOhsAir = darwin.lib.darwinSystem {
-        modules = commonModules ++ homeManagerModules ++ [ 
+        modules = commonModules ++ [ 
           ./darwin/modules
           ./darwin
+
+          home-manager.darwinModules.home-manager
+          homeManagerConfigurations
 
           {
             users.primaryUser = "seungheonoh";

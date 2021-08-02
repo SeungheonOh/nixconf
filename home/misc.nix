@@ -29,15 +29,14 @@
     jq
     ffmpeg
     pot
-
-    haskell-language-server
-    haskellPackages.cabal-install
-    hlint
   ] ++ lib.optionals (!stdenv.isDarwin) [
     google-chrome
     zoom-us
     discord
     feh
     wine
+    
+    haskell-language-server # HLS fails to build on Darwin (?)
+    hlint
   ];
 }

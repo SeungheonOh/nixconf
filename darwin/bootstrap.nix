@@ -16,6 +16,8 @@
   nix.trustedUsers = [
     "@admin"
   ];
+  users.nix.configureBuildUsers = true;
   nix.package = pkgs.nixUnstable;
   nix.extraOptions = "experimental-features = nix-command flakes";
+  services.nix-daemon.enable = true;
 }

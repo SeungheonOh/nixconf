@@ -35,8 +35,5 @@
     discord
     feh
     wine
-    
-    haskell-language-server # HLS fails to build on Darwin (?)
-    hlint
   ];
 }

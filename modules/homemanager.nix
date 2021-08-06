@@ -1,8 +1,9 @@
-{lib, home-manager, ...}:
+{config, lib, ...}:
 
 with lib;
 let
   cfg = config.features.homemanager;
+in
 {
   options.features.homemanager = {
     enable = mkEnableOption "homemanager";
@@ -22,18 +23,13 @@ let
     };
   };
   
-  config = 
-      mkIf cfg.enable {
-        users.users.${cfg.primaryUser}.home = cfg.primaryUserHome;
-        home-manager = {
-            useGlobalPkgs = true;
-            users.${cfg.primaryUser} = import ../home;
-        };
-        
+  config = mkIf cfg.enable (
+    mkAssert (cfg.primaryUser != null) "Set features.homemanager.primaryUserHome" {
+      users.users.${cfg.primaryUser}.home = cfg.primaryUserHome;
+      home-manager = {
+          useGlobalPkgs = true;
+          users.${cfg.primaryUser} = import ../home;
       };
-
-  if stdenv.isDarwin then
-    home-manager.darwinMdoules.home-manager
-  else
-    home-manager.nixosModules.home-manager
+    }
+  );
 }

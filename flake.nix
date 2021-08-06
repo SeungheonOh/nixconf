@@ -6,6 +6,8 @@
     darwin-nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-21.05-darwin";
     darwin.url = "github:lnl7/nix-darwin/master";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
+    
+    # homemanager
     home-manager.url = "github:nix-community/home-manager/release-21.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     
@@ -39,13 +41,6 @@
         nixpkgs = nixpkgsConfig;
       }
     ];
-    # Common configurations for Home Manager.
-    homeManagerConfigurations =
-      ({config, lib, ...}: {
-        users.users.${config.users.primaryUser}.home = config.users.primaryUserHome;
-        home-manager.useGlobalPkgs = true;
-        home-manager.users.${config.users.primaryUser} = import ./home;
-      });
   in {
     # NixOS Systems
     nixosConfigurations = {
@@ -61,11 +56,13 @@
           ./linux/hardware/cL7AySgCX3.nix 
           
           home-manager.nixosModules.home-manager
-          homeManagerConfigurations
 
           {
-            users.primaryUser = "seungheonoh";
-            users.primaryUserHome = "/home/seungheonoh";
+            features.homemanager = {
+              enable = true;
+              primaryUser = "seungheonoh";
+              primaryUserHome = "/home/seungheonoh";            
+            };
 
             networking.hostName = "cL7AySgCX3";
             networking.interfaces = {
@@ -74,6 +71,7 @@
             time.timeZone = "America/Chicago";
             
             features.v4l2loopback.enable = true;
+            features.xmonad.enable = false;
             
             users.users.seungheonoh = {
               name = "seungheonoh";
@@ -98,11 +96,14 @@
           ./darwin
 
           home-manager.darwinModules.home-manager
-          homeManagerConfigurations
 
           {
-            users.primaryUser = "seungheonoh";
-            users.primaryUserHome = "/Users/seungheonoh";
+            features.homemanager = {
+              enable = true;
+              primaryUser = "seungheonoh";
+              primaryUserHome = "/Users/seungheonoh";
+            };
+
             networking.hostName = "SeungheonOhsAir";
             
             nix.extraOptions = "extra-platforms = x86_64-darwin aarch64-darwin";

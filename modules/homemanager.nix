@@ -23,9 +23,6 @@ let
   };
   
   config = 
-    if cfg.primaryUser == null then
-      throw "features.homemanager.primaryUser is required to enable homemanager";
-    else 
       mkIf cfg.enable {
         users.users.${cfg.primaryUser}.home = cfg.primaryUserHome;
         home-manager = {

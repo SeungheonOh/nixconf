@@ -5,5 +5,6 @@
     ./monitoring.nix
     #./vm.nix
     ./v4l2loopback.nix
+    ./xmonad
   ];
 }
